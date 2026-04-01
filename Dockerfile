@@ -20,4 +20,11 @@ LABEL org.opencontainers.image.revision=${REVISION}
 LABEL org.opencontainers.image.revision=${VERSION}
 WORKDIR /app
 COPY --from=publish /app .
+
+# Install prerequisites
+RUN apt-get update && apt-get install -y curl gnupg lsb-release
+
+# Install Azure CLI via Microsoft's official script
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
 ENTRYPOINT [ "/app/azbridge" ]
